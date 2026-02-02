@@ -4,6 +4,13 @@ import '../components/homepage/HomePage.css';
 import ImageSlider from '../components/homepage/ImageSlider';
 import TopLikeSection from '../components/homepage/TopLikeSection';
 
+// Gyazoの.mp4 URLから embed URL に変換
+function convertToEmbedUrl(url) {
+  const match = url.match(/\/([a-f0-9]{32})\.mp4$/);
+  if (!match) return url; // fallback
+  return `https://gyazo.com/${match[1]}/embed`;
+}
+
 function HomePage() {
   return (
     <div className="App">
@@ -32,6 +39,7 @@ function HomePage() {
       </motion.section>
 
       <HeroSection />
+
       <Section
         title="自分だけのハルカミライ履歴書を作ろう！"
         content="「好きな曲、聞いてみたい曲、好きな歌詞、最高だったライブ」あなたのハルカミライを共有しよう！作成した内容をドラッグ＆ドロップで自分だけのオリジナル履歴書にカスタマイズしよう！"
@@ -51,6 +59,7 @@ function HomePage() {
         bg="#263333"
         UseUrl="https://t.gyazo.com/teams/harukamirai-resume/fd8e0a0e14c335ef408504bddb785468.mp4"
       />
+
       <TopLikeSection className="top-like-section" />
     </div>
   );
@@ -88,15 +97,15 @@ function Section({ title, bg, UseUrl, reverse = false, content }) {
       </div>
 
       <div className="section-video">
-        <video
-          src={UseUrl}
-          autoPlay
-          muted
-          loop
-          playsInline
-          controls
-          style={{ width: '100%', maxWidth: '600px' }}
-        />
+        <iframe
+          src={convertToEmbedUrl(UseUrl)}
+          width="100%"
+          height="315"
+          frameBorder="0"
+          allow="autoplay; fullscreen"
+          allowFullScreen
+          title="Gyazo video"
+        ></iframe>
       </div>
     </motion.section>
   );
